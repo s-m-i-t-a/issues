@@ -32,6 +32,7 @@ defmodule Issues.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 0.4"},
+      {:jsx, "~> 2.1.1"},
       {:mock, git: "https://github.com/jjh42/mock.git"},
     ]
   end
