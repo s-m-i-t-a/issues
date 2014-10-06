@@ -1,7 +1,8 @@
 defmodule CliTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
-  import Issues.CLI, only: [parse_args: 1]
+  import Issues.CLI, only: [parse_args: 1, decode_response: 1]
+  import Mock
 
   test ":help returned by option parsing with -h and --help options" do
     assert parse_args(["-h"]) == :help
@@ -18,5 +19,17 @@ defmodule CliTest do
 
   test "with no arguments return :help" do
     assert parse_args([]) == :help
+  end
+
+  test "decode response return body, when :ok in response tuple" do
+    assert decode_response({:ok, "body"}) == "body"
+  end
+
+  test "decode response end processing when :error is in response tuple" do
+    with_mock System, [halt: fn(_) -> nil end] do
+      decode_response({:error, [{"message", "ERROR"}]})
+
+      assert called System.halt(2)
+    end
   end
 end
