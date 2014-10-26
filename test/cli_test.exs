@@ -1,7 +1,12 @@
 defmodule CliTest do
   use ExUnit.Case, async: false
 
-  import Issues.CLI, only: [parse_args: 1, decode_response: 1]
+  import Issues.CLI, only: [
+    parse_args: 1,
+    decode_response: 1,
+    sort_into_ascending_order: 1,
+    convert_to_list_of_hashdicts: 1,
+  ]
   import Mock
 
   test ":help returned by option parsing with -h and --help options" do
@@ -31,5 +36,17 @@ defmodule CliTest do
 
       assert called System.halt(2)
     end
+  end
+
+  test "sort ascending orders the correct way" do
+    result = sort_into_ascending_order(fake_created_at_list(["c", "a", "b"]))
+    issues = for issue <- result, do: issue["created_at"]
+    assert issues == ~w{a b c}
+  end
+
+  defp fake_created_at_list(values) do
+    data = for value <- values,
+      do: [{"created_at", value}, {"other_data", "HUH"}]
+    convert_to_list_of_hashdicts(data)
   end
 end
