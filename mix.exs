@@ -4,7 +4,8 @@ defmodule Issues.Mixfile do
   def project do
     [app: :issues,
      version: "0.0.1",
-     elixir: "~> 1.0.0",
+     elixir: "~> 1.0.1",
+     escript: escript_config,
      deps: deps]
   end
 
@@ -35,5 +36,9 @@ defmodule Issues.Mixfile do
       {:jsx, "~> 2.1.1"},
       {:mock, git: "https://github.com/jjh42/mock.git"},
     ]
+  end
+
+  defp escript_config do
+    [main_module: Issues.CLI]
   end
 end
