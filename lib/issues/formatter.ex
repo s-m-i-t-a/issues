@@ -8,8 +8,11 @@ defmodule Issues.Formatter do
   defp to_table(rows, headers) do
     for row <- rows do
       for header <- headers do
-        row[header]
+        printable(row[header])
       end
     end
   end
+
+  defp printable(str) when is_binary(str), do: str
+  defp printable(str), do: to_string(str)
 end
