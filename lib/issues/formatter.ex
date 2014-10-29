@@ -2,14 +2,17 @@ defmodule Issues.Formatter do
 
   import Enum, only: [
     map: 2,
-    zip: 2
+    zip: 2,
+    map_join: 3,
   ]
 
   def print_table_for_columns(rows, headers) do
     data = to_table(rows, headers)
     widths = width_of([headers| data])
+    format = format_row(widths)
 
-    IO.inspect(widths)
+    print_line(format, headers)
+    hr(widths)
   end
 
   defp to_table(rows, headers) do
@@ -37,5 +40,17 @@ defmodule Issues.Formatter do
     end
 
     width_of(tail, result)
+  end
+
+  defp format_row(widths) do
+      " " <> map_join(widths, " | ", fn width -> "~-#{width}s" end) <> "~n"
+  end
+
+  defp hr(widths) do
+    IO.puts("-" <> map_join(widths, "-+-", fn width -> List.duplicate("-", width) end))
+  end
+
+  defp print_line(format, fields) do
+    :io.format(format, fields)
   end
 end
