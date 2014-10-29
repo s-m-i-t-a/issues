@@ -13,6 +13,7 @@ defmodule Issues.Formatter do
 
     print_line(format, headers)
     hr(widths)
+    print_data(format, data)
   end
 
   defp to_table(rows, headers) do
@@ -52,5 +53,11 @@ defmodule Issues.Formatter do
 
   defp print_line(format, fields) do
     :io.format(format, fields)
+  end
+
+  defp print_data(format, []), do: :ok
+  defp print_data(format, [head | tail]) do
+    print_line(format, head)
+    print_data(format, tail)
   end
 end
