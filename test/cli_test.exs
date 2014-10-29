@@ -1,5 +1,6 @@
 defmodule CliTest do
   use ExUnit.Case, async: false
+  import ExUnit.CaptureIO
 
   import Issues.CLI, only: [
     parse_args: 1,
@@ -32,7 +33,7 @@ defmodule CliTest do
 
   test "decode response end processing when :error is in response tuple" do
     with_mock System, [halt: fn(_) -> nil end] do
-      decode_response({:error, [{"message", "ERROR"}]})
+      capture_io fn -> decode_response({:error, [{"message", "ERROR"}]}) end
 
       assert called System.halt(2)
     end
