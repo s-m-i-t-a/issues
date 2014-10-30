@@ -55,7 +55,7 @@ defmodule Issues.Formatter do
     :io.format(format, fields)
   end
 
-  defp print_data(format, []), do: :ok
+  defp print_data(_format, []), do: :ok
   defp print_data(format, [head | tail]) do
     print_line(format, head)
     print_data(format, tail)
