@@ -6,7 +6,13 @@ config :issues,
   github_url: "https://api.github.com"
 
 config :logger,
-  compile_time_purge_level: :info
+  compile_time_purge_level: :info,
+  backends: [{LoggerFileBackend, :file}],
+  level: :debug
+
+config :logger, :file,
+  level: :debug,
+  path: "logs/issues.log"
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
@@ -26,4 +32,4 @@ config :logger,
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+import_config "#{Mix.env}.exs"

@@ -34,6 +34,7 @@ defmodule Issues.Mixfile do
     [
       {:httpoison, "~> 0.4"},
       {:jsx, "~> 2.1.1"},
+      {:logger_file_backend, "~> 0.0.3"},
       {:mock, git: "https://github.com/jjh42/mock.git"},
     ]
   end
